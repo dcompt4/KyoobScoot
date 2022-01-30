@@ -7,8 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody body;
     public float jumpSpeed = 500.0f;
     public float spinSpeed = 200.0f;
-    public float turnSpeed = 250.0f;
-    public float gameSpeed = 250.0f;
+    public float turnSpeed = 10.5f;
+    public float gameSpeed = 10.5f;
     public float cooldown = 1f;
     private float lastJump;
 
@@ -29,17 +29,34 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate() 
     {   
         
+        // Velocity Based Movement
+        if(Input.GetKey("d"))
+        {
+            //body.AddForce(turnSpeed * Time.deltaTime, 0, 0);
+            body.velocity = new Vector3(turnSpeed, body.velocity.y, body.velocity.z);
+            //Debug.Log(body.position.z);
+        } else if(Input.GetKey("a")) {
+
+            body.velocity = new Vector3(-turnSpeed, body.velocity.y, body.velocity.z);
+
+        } else {
+
+            body.velocity = new Vector3(0, body.velocity.y, body.velocity.z);
+        }
+
+
+        //Force Based movement
+/* 
         if(Input.GetKey("d"))
         {
             body.AddForce(turnSpeed * Time.deltaTime, 0, 0);
-            //Debug.Log(body.position.z);
         }
-
         if(Input.GetKey("a"))
         {
             body.AddForce(-turnSpeed * Time.deltaTime, 0, 0);
-            //Debug.Log(body.position.z);
         }
+ */
+
 
         if (lastJump > cooldown) // only check for space bar if we last fired longer than the cooldown time
         {
